@@ -53,7 +53,7 @@ func (c *Client) Connect(server string) error {
 	c.writeNick()
 	c.writeUser()
 
-	// Block until message 375 comes through
+	// Block until message 001 comes through
 	for true {
 		message, err := c.GetMessage()
 
@@ -61,7 +61,7 @@ func (c *Client) Connect(server string) error {
 			return err
 		}
 
-		if message.Command == "375" {
+		if message.Command == "001" {
 			break
 		}
 
@@ -110,8 +110,6 @@ func (c *Client) GetMessage() (*Message, error) {
 		return nil, err
 	}
 
-	fmt.Printf(status)
-
 	message := ParseMessage(status)
 
 	return message, nil
@@ -141,7 +139,6 @@ func (c *Client) Listen() {
 			panic(err)
 		}
 
-		//fmt.Printf("%v\n", message)
 		c.Messages <- message
 	}
 }
