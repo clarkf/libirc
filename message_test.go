@@ -1,4 +1,4 @@
-package irc
+package libirc
 
 import "testing"
 

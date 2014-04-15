@@ -9,24 +9,31 @@ libirc is an IRC library for [Go](http://golang.org/).
 A simple example:
 
 ```go
+package main
+
+import (
+	"github.com/clarkf/libirc"
+	"time"
+)
+
 func main() {
-    c:= libirc.NewClient("nickname", "username", "Real Name")
+	c := libirc.NewClient("nickname", "username", "Real Name")
 
-    err := c.ConnectAndListen("irc.myircserver.tld:6667")
+	err := c.ConnectAndListen("irc.myserver.tld:6667")
 
-    // libirc will block until the connection is ready
+	// libirc will block until the connection is ready
 
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
-    c.join("#myChannel")
+	c.Join("#hello")
 
-    c.Write(
-      irc.NewMessage("PRIVMSG", []string{"#myChannel", "Hello world!"})
-    )
+	c.Write(libirc.NewMessage("PRIVMSG", []string{"#hello", "Hello world!"}))
 
-    // Client will disconnect now.
+	time.Sleep(time.Duration(5) * time.Second)
+
+	// Client will disconnect now.
 }
 ```
 
